@@ -1,20 +1,12 @@
-apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'jcstress'
+import java.util.concurrent.TimeUnit
 
-buildscript {
-    repositories {
-        jcenter()
-    }
-
-    dependencies {
-        classpath 'com.github.erizo.gradle:jcstress-gradle-plugin:0.8.1'
-    }
+plugins {
+    id "com.github.erizo.gradle.jcstress" version "0.8.8"
+    id 'java'
 }
 
-
 ext {
-    jcstressVersion = '0.3'
+    jcstressVersion = '0.8'
 }
 
 repositories {
@@ -27,4 +19,7 @@ dependencies {
 
 jcstress {
     jcstressDependency "org.openjdk.jcstress:jcstress-core:${jcstressVersion}"
+    forks = 2
+    concurrency = 16
+    timeMillis = TimeUnit.SECONDS.toMillis(15)
 }
